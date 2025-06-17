@@ -4,7 +4,7 @@ const app = require( '/app/source/app' )
 
 const startServer = () => {
 	app.listen( port, () => {
-		console.log( `Example app listening on port ${ port }` )
+		console.log( `Elementary school API listening on port ${ port }` )
 	  } )
 }
 
