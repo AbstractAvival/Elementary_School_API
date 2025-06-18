@@ -79,4 +79,86 @@ describe( "User Test Suite", function() {
             assert.isFunction( controller.put )
         } )
     } )
+
+    describe( "Users CRUD tests", function() {
+        it( "Create user", function() {
+
+        } )
+
+        it( "Create user - missing id parameter", function() {
+
+        } )
+
+        it( "Create user - invalid id parameter", function() {
+
+        } )
+
+        it( "Create users - duplicate", function() {
+
+        } )
+
+        it( "Get users", function() {
+            
+        } )
+
+        it( "Get users - pagination parameters fail 1", function() {
+            
+        } )
+
+        it( "Get users - pagination parameters fail 2", function() {
+            
+        } )
+
+        it( "Get users - pagination parameters fail 3", function() {
+            
+        } )
+
+        it( "Get users - pagination parameters fail 4", function() {
+            
+        } )
+
+        it( "Get specific user", function() {
+            
+        } )
+
+        it( "Get specific user - bad id", function() {
+            
+        } )
+
+        it( "Get specific user - not found", function() {
+            
+        } )
+
+        it( "Update user", function() {
+            
+        } )
+
+        it( "Update user - missing id parameter", function() {
+            
+        } )
+
+        it( "Update user - invalid id parameter", function() {
+            
+        } )
+
+        it( "Update user - not found", function() {
+            
+        } )
+
+        it( "Delete users", function() {
+            
+        } )
+
+        it( "Delete user - missing id parameter", function() {
+
+        } )
+
+        it( "Delete user - invalid id parameter", function() {
+
+        } )
+
+        it( "Delete user - not found", function() {
+
+        } )
+    } )
 } )
