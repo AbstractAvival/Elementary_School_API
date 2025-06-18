@@ -5,7 +5,7 @@ function paginationFormat( data, paginationParameters, totalCount ) {
     const offsetPage = totalCount % ( paginationParameters.limit ?? paginationConstants.DEFAULT_LIMIT ) != 0
 
     return {
-        current_page: paginationParameters.page ?? 1,
+        current_page: paginationParameters.page ?? paginationConstants.DEFAULT_PAGE,
         data: data,
         per_page: paginationParameters.limit ?? paginationConstants.DEFAULT_LIMIT,
         total_entries: totalCount,
