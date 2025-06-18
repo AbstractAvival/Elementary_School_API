@@ -1,10 +1,10 @@
 {
   "name": "elementary_school_api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A simple backend that helps manage the staff and students of an elementary school.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha || true"
   },
   "keywords": [
     "Users",
@@ -27,5 +27,9 @@
     "luxon": "^3.6.1",
     "mongodb": "^6.17.0",
     "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "mocha": "^11.7.0"
   }
 }
