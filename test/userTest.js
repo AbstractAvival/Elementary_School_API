@@ -1,6 +1,11 @@
 const assert = require( "chai" ).assert
 
 const { UserRepository } = require( "/app/source/http/repositories/userRepository" )
+const { deleteUserRequest } = require( '/app/source/http/requests/user/deleteUserRequest' )
+const { indexUserRequest } = require( '/app/source/http/requests/user/indexUserRequest' )
+const { showUserRequest } = require( '/app/source/http/requests/user/showUserRequest' )
+const { storeUserRequest } = require( '/app/source/http/requests/user/storeUserRequest' )
+const { updateUserRequest } = require( '/app/source/http/requests/user/updateUserRequest' )
 const repository = new UserRepository()
 
 describe( "User Test Suite", function() {
