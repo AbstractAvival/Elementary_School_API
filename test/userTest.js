@@ -6,6 +6,11 @@ describe( "User Test Suite", function() {
             assert.exists( repository )
         } )
 
+        it( "'Create' method should exist.", function () {
+            assert.exists( repository.create )
+            assert.isFunction( repository.create )
+        } )
+
         it( "'Delete' method should exist.", function () {
             assert.exists( repository.delete )
             assert.isFunction( repository.delete )
@@ -21,11 +26,6 @@ describe( "User Test Suite", function() {
             assert.isFunction( repository.list )
         } )
 
-        it( "'Create' method should exist.", function () {
-            assert.exists( repository.create )
-            assert.isFunction( repository.create )
-        } )
-
         it( "'Update' method should exist.", function () {
             assert.exists( repository.update )
             assert.isFunction( repository.update )
@@ -33,6 +33,10 @@ describe( "User Test Suite", function() {
     } )
 
     describe( "User Request Tests", function() {
+        it( "Create user request should exist", function() {
+            assert.exists( storeUserRequest )
+        } )
+        
         it( "Delete user request should exist", function() {
             assert.exists( deleteUserRequest )
         } )
@@ -43,10 +47,6 @@ describe( "User Test Suite", function() {
 
         it( "Show user request should exist", function() {
             assert.exists( showUserRequest )
-        } )
-
-        it( "Store user request should exist", function() {
-            assert.exists( storeUserRequest )
         } )
 
         it( "Update user request should exist", function() {
