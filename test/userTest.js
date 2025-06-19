@@ -1,5 +1,8 @@
 const assert = require( "chai" ).assert
 
+const { UserRepository } = require( "/app/source/http/repositories/userRepository" )
+const repository = new UserRepository()
+
 describe( "User Test Suite", function() {
     describe( "User Repository Tests", function() {
         it( "User Repository should exist", function() {
@@ -36,7 +39,7 @@ describe( "User Test Suite", function() {
         it( "Create user request should exist", function() {
             assert.exists( storeUserRequest )
         } )
-        
+
         it( "Delete user request should exist", function() {
             assert.exists( deleteUserRequest )
         } )

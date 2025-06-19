@@ -1,14 +1,14 @@
 const { getClient } = require( "/app/source/dataAccessLayer/connections/mongoClient" )
 
 //Errors
-const { DuplicateRecordError } = require( "../../errors/duplicateRecordError" )
-const { NotFoundError } = require( "../../errors/notFoundError" )
+const { DuplicateRecordError } = require( "/app/source/errors/duplicateRecordError" )
+const { NotFoundError } = require( "/app/source/errors/notFoundError" )
 
 // Utilities
 const { getCollection } = require( "/app/source/utilities/database" )
 const { getProjection } = require( "/app/source/utilities/database" )
 const { paginationFormat } = require( "/app/source/utilities/responses/dataFormats" )
-const { paginationConstants } = require( "/app/source/utlities/constants/paginationConstants" )
+const { paginationConstants } = require( "/app/source/utilities/constants/paginationConstants" )
 
 class UserRepository {
     static COLLECTION_NAME = "user"
