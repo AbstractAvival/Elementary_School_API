@@ -25,6 +25,8 @@ class UserRepository {
             const collection = getCollection( client, COLLECTION_NAME )
             const passwordOffsetDate = getOffsetDate( securityConstants.DEFAULT_PASSWORD_EXPIRATION_OFFSET_DAYS )
             
+            const securePasswordData = createSecurePasswordData( data[ "registration_token" ] )
+
             const result = await collection.insertOne( {
                 address_1: data[ "address_1" ] ?? "",
                 address_2: data[ "address_2" ] ?? "",
@@ -41,7 +43,7 @@ class UserRepository {
                 last_login_date: "",
                 last_name: data[ "last_name" ] ?? "",
                 last_password_update: new Date( Date.now() ).toISOString().slice( 0, 19 ).replace( 'T', ' ' ),
-                password: data[ "password" ] ?? "",
+                password: securePasswordData.password,
                 password_expires_on: passwordOffsetDate.toISOString().slice( 0, 19 ).replace( 'T', ' ' ),
                 password_updated_by: data[ "password_updated_by" ] ?? "",
                 postal_code: data[ "postal_code" ] ?? "",
@@ -49,6 +51,7 @@ class UserRepository {
                 registered_by: data[ "registered_by" ] ?? "",
                 registration_date: data[ "registration_date" ] ?? "",
                 role: data[ "role" ] ?? "",
+                salt: securePasswordData.salt,
                 telephone_1: data[ "telephone_1" ] ?? "",
                 telephone_2: data[ "telephone_2" ] ?? "",
                 username: data[ "username" ] ?? ""

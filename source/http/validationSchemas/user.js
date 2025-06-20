@@ -35,7 +35,7 @@ const allowedColumns = [
 ]
 
 const deleteUserParameterSchema = yup.object( {
-    id: yup.string().max( 20 ).matches( regex.only_letters_regex ).required(),
+    id: yup.string().max( 20 ).matches( regex.id_regex ).required(),
 } )
 
 const paginationSchema = yup.object( {
@@ -56,7 +56,7 @@ const paginationSchema = yup.object( {
 } )
 
 const showUserParameterSchema = yup.object( {
-    resource_id: yup.string().max( 20 ).matches( regex.only_letters_regex ).required(),
+    id: yup.string().max( 20 ).matches( regex.id_regex ).required(),
 } )
 
 const showUserQuerySchema = yup.object( {
@@ -81,10 +81,12 @@ const storeUserBodySchema = yup.object( {
     date_of_birth: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
     email: yup.string().email().nullable(),
     first_name: yup.string().max( 50 ).matches( regex.only_letters_regex ).nullable(),
+    gender: yup.string().max( 20 ).matches( regex.only_letters_regex ).nullable(),
+    id: yup.string().max( 20 ).matches( regex.id_regex ).required(),
     language: yup.string().max( 10 ).matches( regex.general_use_regex ).nullable(),
     last_login_date: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
     last_name: yup.string().max( 50 ).matches( regex.only_letters_regex ).nullable(),
-    password: yup.string().max( 100 ).matches( regex.general_use_regex ).nullable(),
+    password_updated_by: yup.string().max( 20 ).matches( regex.id_regex ).required(),
     postal_code: yup.string().max( 100 ).matches( regex.phone_regex ).nullable(),
     profile_photo: yup.object().shape( {
         image: yup.mixed().nullable()
@@ -102,10 +104,10 @@ const storeUserBodySchema = yup.object( {
                 return true
             } )
     } ),
+    registered_by: yup.string().max( 20 ).matches( regex.id_regex ).required(),
     registration_date: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
-    resource_id: yup.string().max( 20 ).matches( regex.only_letters_regex ).required(),
+    registration_token: yup.string().max( 100 ).matches( regex.password_regex ).required(),
     role: yup.string().max( 30 ).matches( regex.only_letters_regex ).nullable(),
-    sex: yup.string().max( 15 ).matches( regex.only_letters_regex ).nullable(),
     telephone_1: yup.string().max( 16 ).matches( regex.phone_regex ).nullable(),
     telephone_2: yup.string().max( 16 ).matches( regex.phone_regex ).nullable(),
     username: yup.string().max( 25 ).matches( regex.general_use_regex ).nullable()
@@ -121,11 +123,15 @@ const updateUserBodySchema = yup.object( {
     date_of_birth: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
     email: yup.string().email().nullable(),
     first_name: yup.string().max( 50 ).matches( regex.only_letters_regex ).nullable(),
+    gender: yup.string().max( 20 ).matches( regex.only_letters_regex ).nullable(),
     language: yup.string().max( 10 ).matches( regex.general_use_regex ).nullable(),
     last_login_date: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
     last_name: yup.string().max( 50 ).matches( regex.only_letters_regex ).nullable(),
+    last_password_update: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
     password: yup.string().max( 100 ).matches( regex.general_use_regex ).nullable(),
-    postal_code: yup.string().min( 4 ).max( 100 ).matches( regex.phone_regex ).nullable(),
+    password_expires_on: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
+    password_updated_by: yup.string().max( 20 ).matches( regex.id_regex ).required(),
+    postal_code: yup.string().max( 100 ).matches( regex.phone_regex ).nullable(),
     profile_photo: yup.object().shape( {
         image: yup.mixed().nullable()
             .test( "File format validation", languageStrings.errorMessages.invalid_file_type, ( value ) => {
@@ -151,7 +157,7 @@ const updateUserBodySchema = yup.object( {
 } )
 
 const updateUserParameterSchema = yup.object( {
-    resource_id: yup.string().max( 20 ).matches( regex.only_letters_regex ).required(),
+    id: yup.string().max( 20 ).matches( regex.id_regex ).required(),
 } )
 
 module.exports = {
