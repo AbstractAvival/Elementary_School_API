@@ -5,10 +5,11 @@ const { DuplicateRecordError } = require( "/app/source/errors/duplicateRecordErr
 const { NotFoundError } = require( "/app/source/errors/notFoundError" )
 
 // Utilities
-const { getCollection } = require( "/app/source/utilities/database" )
-const { getProjection } = require( "/app/source/utilities/database" )
+const { getCollection, getProjection } = require( "/app/source/utilities/database" )
+const { getOffsetDate } = require( "/app/source/utilities/dates" )
 const { paginationFormat } = require( "/app/source/utilities/responses/dataFormats" )
 const { paginationConstants } = require( "/app/source/utilities/constants/paginationConstants" )
+const { securityConstants } = require("/app/source/utilities/constants/security")
 
 class UserRepository {
     static COLLECTION_NAME = "user"
@@ -22,6 +23,7 @@ class UserRepository {
         const client = getClient()
         try{
             const collection = getCollection( client, COLLECTION_NAME )
+            const passwordOffsetDate = getOffsetDate( securityConstants.DEFAULT_PASSWORD_EXPIRATION_OFFSET_DAYS )
             
             const result = await collection.insertOne( {
                 address_1: data[ "address_1" ] ?? "",
@@ -36,11 +38,11 @@ class UserRepository {
                 gender: data[ "gender" ] ?? "",
                 id: data[ "id" ],
                 language: data[ "language" ] ?? "",
-                last_login_date: data[ "last_login_date" ] ?? "",
+                last_login_date: "",
                 last_name: data[ "last_name" ] ?? "",
-                last_password_update: data[ "last_password_update" ] ?? "",
+                last_password_update: new Date( Date.now() ).toISOString().slice( 0, 19 ).replace( 'T', ' ' ),
                 password: data[ "password" ] ?? "",
-                password_expires_on: data[ "password_expires_on" ] ?? "",
+                password_expires_on: passwordOffsetDate.toISOString().slice( 0, 19 ).replace( 'T', ' ' ),
                 password_updated_by: data[ "password_updated_by" ] ?? "",
                 postal_code: data[ "postal_code" ] ?? "",
                 profile_photo: data[ "profile_photo" ] ?? "",
@@ -143,6 +145,7 @@ class UserRepository {
         const client = getClient()
         try{
             const collection = getCollection( client, COLLECTION_NAME )
+            const passwordOffsetDate = getOffsetDate( securityConstants.DEFAULT_PASSWORD_EXPIRATION_OFFSET_DAYS )
 
             const result = await collection.updateOne( 
                 { id: id }, 
@@ -160,10 +163,10 @@ class UserRepository {
                         gender: data[ "gender" ] ?? userExists[ 0 ].gender,
                         language: data[ "language" ] ?? userExists[ 0 ].language,
                         last_login_date: data[ "last_login_date" ] ?? userExists[ 0 ].last_login_date,
-                        last_password_update: data[ "last_password_update" ] ?? userExists[ 0 ].last_password_update,
+                        last_password_update: data[ "password" ] ? new Date( Date.now() ).toISOString().slice( 0, 19 ).replace( 'T', ' ' ) : userExists[ 0 ].last_password_update,
                         last_name: data[ "last_name" ] ?? userExists[ 0 ].last_name,
                         password: data[ "password" ] ?? userExists[ 0 ].password,
-                        password_expires_on: data[ "password_expires_on" ] ?? userExists[ 0 ].password_expires_on,
+                        password_expires_on: data[ "password" ] ? passwordOffsetDate.toISOString().slice( 0, 19 ).replace( 'T', ' ' ) : userExists[ 0 ].password_expires_on,
                         password_updated_by: data[ "password_updated_by" ] ?? userExists[ 0 ].password_updated_by,
                         postal_code: data[ "postal_code" ] ?? userExists[ 0 ].postal_code,
                         profile_photo: data[ "profile_photo" ] ?? userExists[ 0 ].profile_photo,
