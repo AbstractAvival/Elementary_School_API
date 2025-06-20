@@ -79,7 +79,7 @@ const storeUserBodySchema = yup.object( {
     country: yup.string().max( 80 ).matches( regex.only_letters_regex ).nullable(),
     country_of_birth: yup.string().max( 80 ).matches( regex.only_letters_regex ).nullable(),
     date_of_birth: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
-    email: yup.string().email().nullable(),
+    email: yup.string().email().required(),
     first_name: yup.string().max( 50 ).matches( regex.only_letters_regex ).nullable(),
     gender: yup.string().max( 20 ).matches( regex.only_letters_regex ).nullable(),
     id: yup.string().max( 20 ).matches( regex.id_regex ).required(),

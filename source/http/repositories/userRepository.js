@@ -36,7 +36,7 @@ class UserRepository {
                 country: data[ "country" ] ?? "",
                 country_of_birth: data[ "country_of_birth" ] ?? "",
                 date_of_birth: data[ "date_of_birth" ] ?? "",
-                email: data[ "email" ] ?? "",
+                email: data[ "email" ],
                 first_name: data[ "first_name" ] ?? "",
                 gender: data[ "gender" ] ?? "",
                 id: data[ "id" ],
