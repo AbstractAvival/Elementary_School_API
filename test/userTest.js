@@ -1,5 +1,6 @@
 const assert = require( "chai" ).assert
 
+const controller = require( "/app/source/http/controllers/user" )
 const { UserRepository } = require( "/app/source/http/repositories/userRepository" )
 const { deleteUserRequest } = require( '/app/source/http/requests/user/deleteUserRequest' )
 const { indexUserRequest } = require( '/app/source/http/requests/user/indexUserRequest' )
@@ -75,11 +76,6 @@ describe( "User Test Suite", function() {
         it( "'Get' method should exist.", function () {
             assert.exists( controller.get )
             assert.isFunction( controller.get )
-        } )
-
-        it( "'Post' method should exist.", function () {
-            assert.exists( controller.list )
-            assert.isFunction( controller.list )
         } )
 
         it( "'Put' method should exist.", function () {

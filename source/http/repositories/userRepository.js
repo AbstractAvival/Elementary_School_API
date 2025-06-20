@@ -9,7 +9,7 @@ const { createSecurePasswordData } = require( "/app/source/utilities/security/pa
 const { getCollection, getProjection } = require( "/app/source/utilities/database" )
 const { getOffsetDate } = require( "/app/source/utilities/dates" )
 const { paginationFormat } = require( "/app/source/utilities/responses/dataFormats" )
-const { paginationConstants } = require( "/app/source/utilities/constants/paginationConstants" )
+const { paginationConstants } = require( "/app/source/utilities/constants/pagination" )
 const { securityConstants } = require("/app/source/utilities/constants/security")
 
 class UserRepository {

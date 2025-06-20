@@ -1,4 +1,4 @@
-const { paginationConstants } = require( '/app/source/utilities/constants/paginationConstants' )
+const { paginationConstants } = require( '/app/source/utilities/constants/pagination' )
 
 function paginationFormat( data, paginationParameters, totalCount ) {
     const totalPages = parseInt( totalCount / ( paginationParameters.limit ?? paginationConstants.DEFAULT_LIMIT ) )

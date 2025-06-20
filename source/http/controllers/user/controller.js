@@ -3,7 +3,7 @@ const express = require( 'express' )
 const { getLanguageStrings } = require( '/app/source/utilities/localization' )
 const { settings } = require( '/app/source/settings' )
 const languageStrings = getLanguageStrings( settings.language )
-const { paginationConstants } = require( '/app/source/utilities/constants/paginationConstants' )
+const { paginationConstants } = require( '/app/source/utilities/constants/pagination' )
 const userController = express.Router()
 const { UserRepository } = require( '/app/source/http/repositories/userRepository' )
 
