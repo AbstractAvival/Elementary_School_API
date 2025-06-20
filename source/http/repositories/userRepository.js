@@ -5,6 +5,7 @@ const { DuplicateRecordError } = require( "/app/source/errors/duplicateRecordErr
 const { NotFoundError } = require( "/app/source/errors/notFoundError" )
 
 // Utilities
+const { createSecurePasswordData } = require( "/app/source/utilities/security/password" )
 const { getCollection, getProjection } = require( "/app/source/utilities/database" )
 const { getOffsetDate } = require( "/app/source/utilities/dates" )
 const { paginationFormat } = require( "/app/source/utilities/responses/dataFormats" )
