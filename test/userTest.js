@@ -121,6 +121,10 @@ describe( "User Test Suite", function() {
             
         } )
 
+        it( "Get users - pagination parameters fail 5", function() {
+            
+        } )
+
         it( "Get specific user", function() {
             
         } )
