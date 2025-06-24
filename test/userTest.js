@@ -9,6 +9,124 @@ const { storeUserRequest } = require( '/app/source/http/requests/user/storeUserR
 const { updateUserRequest } = require( '/app/source/http/requests/user/updateUserRequest' )
 const repository = new UserRepository()
 
+const userData = [
+    {
+        "address_1": "Main Street",
+        "address_2": "Secondary Street",
+        "cellphone_1": "2063428631",
+        "cellphone_2": "2063428631",
+        "country": "United States",
+        "country_of_birth": "United States",
+        "date_of_birth": "1999-05-31",
+        "email": "s_bailey2_@gmail.com",
+        "first_name": "Sarah",
+        "gender": "Female",
+        "id": "TEST_BAILEY",
+        "language": "en-us",
+        "last_name": "Bailey",
+        "password": "123456789",
+        "password_updated_by": "test admin",
+        "postal_code": "04662",
+        "registered_by": "test admin",
+        "role": "STFIII",
+        "telephone_1": "9999999999",
+        "telephone_2": "9999999999",
+        "username": "Sar_bail"
+    },
+    {
+        "address_1": "1st Street",
+        "address_2": "1st And a Half Street",
+        "cellphone_1": "9896335465",
+        "cellphone_2": "9896335465",
+        "country": "United States",
+        "country_of_birth": "United States",
+        "date_of_birth": "1999-06-17",
+        "email": "jkuzac@gmail.com",
+        "first_name": "John",
+        "gender": "Male",
+        "id": "TEST_KUZAC",
+        "language": "en-us",
+        "last_name": "Kuzac",
+        "password": "123456789",
+        "password_updated_by": "test admin",
+        "postal_code": "84003",
+        "registered_by": "test admin",
+        "role": "STFIII",
+        "telephone_1": "9999999999",
+        "telephone_2": "9999999999",
+        "username": "kuzac_J"
+    },
+    {
+        "address_1": "2nd Street",
+        "address_2": "2nd And a Half Street",
+        "cellphone_1": "7346468531",
+        "cellphone_2": "",
+        "country": "United States",
+        "country_of_birth": "United States",
+        "date_of_birth": "1999-07-07",
+        "email": "BethanyJNS@gmail.com",
+        "first_name": "Bethany",
+        "gender": "Female",
+        "id": "TEST_JONES",
+        "language": "en-us",
+        "last_name": "Jones",
+        "password": "123456789",
+        "password_updated_by": "test admin",
+        "postal_code": "68023",
+        "registered_by": "test admin",
+        "role": "STFIII",
+        "telephone_1": "9999999999",
+        "telephone_2": "9999999999",
+        "username": "beth_jones"
+    },
+    {
+        "address_1": "3rd Street",
+        "address_2": "3rd And a Half Street",
+        "cellphone_1": "5056195590",
+        "cellphone_2": "3611550551",
+        "country": "United States",
+        "country_of_birth": "United States",
+        "date_of_birth": "1999-08-22",
+        "email": "sterns_ryan@gmail.com",
+        "first_name": "Ryan",
+        "gender": "Male",
+        "id": "TEST_SIMMONS",
+        "language": "en-us",
+        "last_name": "Simmons",
+        "password": "123456789",
+        "password_updated_by": "test admin",
+        "postal_code": "30022",
+        "registered_by": "test admin",
+        "role": "STFIII",
+        "telephone_1": "9999999999",
+        "telephone_2": "9999999999",
+        "username": "sterns_r"
+    },
+    {
+        "address_1": "4th Street",
+        "address_2": "4th And a Half Street",
+        "cellphone_1": "3611550551",
+        "cellphone_2": "3611550551",
+        "country": "United States",
+        "country_of_birth": "United States",
+        "date_of_birth": "1999-09-30",
+        "email": "d_rae_martin@gmail.com",
+        "first_name": "Desirae",
+        "gender": "Female",
+        "id": "TEST_MARTIN",
+        "language": "en-us",
+        "last_name": "Martin",
+        "password": "123456789",
+        "password_updated_by": "test admin",
+        "postal_code": "30022",
+        "registered_by": "test admin",
+        "role": "STFIII",
+        "telephone_1": "9999999999",
+        "telephone_2": "9999999999",
+        "username": "d_rae_martin"
+    }
+]
+
 describe( "User Test Suite", function() {
     describe( "User Repository Tests", function() {
         it( "User Repository should exist", function() {
@@ -38,6 +156,12 @@ describe( "User Test Suite", function() {
         it( "'Update' method should exist.", function () {
             assert.exists( repository.update )
             assert.isFunction( repository.update )
+        } )
+
+        it( "Repository - Create user", async function() {
+            await repository.create( userData[ 0 ] )
+            let data = await repository.get( userData[ 0 ][ "id" ] )
+            assert.containsAllKeys( data[ 0 ], userData[ 0 ], "The given object does not contain the desired user data keys." )
         } )
     } )
 

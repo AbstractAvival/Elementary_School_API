@@ -12,9 +12,9 @@ const { paginationFormat } = require( "/app/source/utilities/responses/dataForma
 const { paginationConstants } = require( "/app/source/utilities/constants/pagination" )
 const { securityConstants } = require("/app/source/utilities/constants/security")
 
-class UserRepository {
-    static COLLECTION_NAME = "user"
+const COLLECTION_NAME = "user"
 
+class UserRepository {
     async create( data ) {
         const userExists = await this.get( data[ "id" ] )
         if( userExists.length ) {
@@ -50,7 +50,7 @@ class UserRepository {
                 postal_code: data[ "postal_code" ] ?? "",
                 profile_photo: data[ "profile_photo" ] ?? "",
                 registered_by: data[ "registered_by" ] ?? "",
-                registration_date: data[ "registration_date" ] ?? "",
+                registration_date: new Date( Date.now() ).toISOString().slice( 0, 19 ).replace( 'T', ' ' ),
                 role: data[ "role" ] ?? "",
                 salt: securePasswordData.salt,
                 telephone_1: data[ "telephone_1" ] ?? "",
@@ -58,7 +58,7 @@ class UserRepository {
                 username: data[ "username" ] ?? ""
             } )
 
-            return await getUser( data[ "id" ] )
+            return await this.get( data[ "id" ] )
         } catch( error ) {
             //TODO add database errors
             throw error
@@ -101,7 +101,7 @@ class UserRepository {
                 data.push( user )
             }
 
-            return userData
+            return data
         } catch( error ) {
             //TODO add database errors
             throw error
@@ -184,7 +184,7 @@ class UserRepository {
                 }
             )
 
-            return await getUser( resourceId )
+            return await this.get( id )
         } catch( error ) {
             //TODO add database errors
             throw error
