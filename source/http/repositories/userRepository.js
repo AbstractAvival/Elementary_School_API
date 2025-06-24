@@ -110,7 +110,10 @@ class UserRepository {
         }
     }
 
-    async list( columns = [], paginationParameters = {} ) {
+    async list( 
+        columns = [], 
+        paginationParameters = { order_by: "id" } 
+    ) {
         const client = getClient()
         try{
             const collection = getCollection( client, COLLECTION_NAME )

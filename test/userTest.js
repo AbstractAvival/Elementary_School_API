@@ -1,5 +1,8 @@
 const assert = require( "chai" ).assert
 
+const { getClient } = require( "/app/source/dataAccessLayer/connections/mongoClient" )
+const { getCollection } = require( "/app/source/utilities/database" )
+
 const controller = require( "/app/source/http/controllers/user" )
 const { UserRepository } = require( "/app/source/http/repositories/userRepository" )
 const { deleteUserRequest } = require( '/app/source/http/requests/user/deleteUserRequest' )
@@ -9,30 +12,38 @@ const { storeUserRequest } = require( '/app/source/http/requests/user/storeUserR
 const { updateUserRequest } = require( '/app/source/http/requests/user/updateUserRequest' )
 const repository = new UserRepository()
 
-const userData = [
+const preTestUserData = [
     {
-        "address_1": "Main Street",
-        "address_2": "Secondary Street",
-        "cellphone_1": "2063428631",
-        "cellphone_2": "2063428631",
-        "country": "United States",
-        "country_of_birth": "United States",
-        "date_of_birth": "1999-05-31",
-        "email": "s_bailey2_@gmail.com",
-        "first_name": "Sarah",
-        "gender": "Female",
-        "id": "TEST_BAILEY",
-        "language": "en-us",
-        "last_name": "Bailey",
-        "password": "123456789",
-        "password_updated_by": "test admin",
-        "postal_code": "04662",
-        "registered_by": "test admin",
-        "role": "STFIII",
-        "telephone_1": "9999999999",
-        "telephone_2": "9999999999",
-        "username": "Sar_bail"
-    },
+        address_1: 'Main Street',
+        address_2: 'Secondary Street',
+        cellphone_1: '2063428631',
+        cellphone_2: '2063428631',
+        country: 'United States',
+        country_of_birth: 'United States',
+        date_of_birth: '1999-05-31',
+        email: 's_bailey2_@gmail.com',
+        first_name: 'Sarah',
+        gender: 'Female',
+        id: 'TEST_BAILEY',
+        language: 'en-us',
+        last_login_date: '',
+        last_name: 'Bailey',
+        last_password_update: '2025-06-24 22:52:47',
+        password: 'f503e972d15c74fe0766bd8c46fcfc87e4ffff447e0c5e48043e42f88ad8c170',
+        password_expires_on: '2025-07-24 22:52:47',
+        password_updated_by: 'test admin',
+        postal_code: '04662',
+        profile_photo: '',
+        registered_by: 'test admin',
+        registration_date: '2025-06-24 22:52:47',
+        role: 'STFIII',
+        salt: 'i6AzxkVrzsVqVdrl5KTzDA==',
+        telephone_1: '9999999999',
+        telephone_2: '9999999999',
+        username: 'Sar_bail'
+    }
+]
+const userData = [
     {
         "address_1": "1st Street",
         "address_2": "1st And a Half Street",
@@ -129,6 +140,16 @@ const userData = [
 
 describe( "User Test Suite", function() {
     describe( "User Repository Tests", function() {
+        before( async function() {
+            const client = getClient()
+            try {
+                const collection = getCollection( client, "user" )
+                await collection.insertOne( preTestUserData[ 0 ] )
+            } catch( error ) {
+                throw error
+            }
+        } )
+
         it( "User Repository should exist", function() {
             assert.exists( repository )
         } )
@@ -158,10 +179,40 @@ describe( "User Test Suite", function() {
             assert.isFunction( repository.update )
         } )
 
+        it( "Repository - Get user", async function() {
+            let data = await repository.get( preTestUserData[ 0 ][ "id" ] )
+            assert.containsAllKeys( data[ 0 ], preTestUserData[ 0 ], "The recovered record does not match the original record." )
+        } )
+
         it( "Repository - Create user", async function() {
             await repository.create( userData[ 0 ] )
             let data = await repository.get( userData[ 0 ][ "id" ] )
-            assert.containsAllKeys( data[ 0 ], userData[ 0 ], "The given object does not contain the desired user data keys." )
+            assert.containsAllKeys( data[ 0 ], userData[ 0 ], "The created record does not contain all of the given user data." )
+        } )
+
+        before( async function() {
+            await repository.create( userData[ 1 ] )
+            await repository.create( userData[ 2 ] )
+            await repository.create( userData[ 3 ] )
+        } )
+
+        it( "Repository - List users", async function() {
+            let data = await repository.list()
+            assert.hasAllKeys( data, [ "current_page", "data", "per_page", "total_entries", "total_pages" ], "The repository response does not have the required structure." )
+            assert.strictEqual( data.data.total_entries, 5, "There should only be 5 records in the database." )
+            assert.containsAllKeys( data.data[ 0 ], preTestUserData[ 0 ], "The recovered record does not match the original record." )
+            assert.containsAllKeys( data.data[ 1 ], userData[ 0 ], "The recovered record does not match the original record." )
+            assert.containsAllKeys( data.data[ 2 ], userData[ 1 ], "The recovered record does not match the original record." )
+            assert.containsAllKeys( data.data[ 3 ], userData[ 3 ], "The recovered record does not match the original record." )
+            assert.containsAllKeys( data.data[ 4 ], userData[ 2 ], "The recovered record does not match the original record." )
+        } )
+
+        it( "Repository - Update user", async function() {
+            
+        } )
+
+        it( "Repository - Delete user", async function() {
+            
         } )
     } )
 
