@@ -2,6 +2,9 @@ const assert = require( "chai" ).assert
 
 const { getClient } = require( "/app/source/dataAccessLayer/connections/mongoClient" )
 const { getCollection } = require( "/app/source/utilities/database" )
+const { getLanguageStrings } = require( '/app/source/utilities/localization' )
+const { settings } = require( '/app/source/settings' )
+const languageStrings = getLanguageStrings( settings.language )
 
 const controller = require( "/app/source/http/controllers/user" )
 const { UserRepository } = require( "/app/source/http/repositories/userRepository" )
@@ -184,10 +187,32 @@ describe( "User Test Suite", function() {
             assert.containsAllKeys( data[ 0 ], preTestUserData[ 0 ], "The recovered record does not match the original record." )
         } )
 
+        it( "Repository - Get user fail - not found", async function() {
+            try {
+                await repository.get( "DOESNT_EXIST" )
+                assert.fail( "Not found error was supposed to be thrown." )
+            } catch( error ) {
+                assert.equal( error.message, languageStrings.errorMessages.not_found, "The message of the error is not equal to the predefined message." )
+                assert.equal( error.name, "NotFoundError", "The name of the error is not equal to the predefined name." )
+                assert.equal( error.statusCode, 404, "The status code of the error was supposed to be 409." )
+            }
+        } )
+
         it( "Repository - Create user", async function() {
             await repository.create( userData[ 0 ] )
             let data = await repository.get( userData[ 0 ][ "id" ] )
             assert.containsAllKeys( data[ 0 ], userData[ 0 ], "The created record does not contain all of the given user data." )
+        } )
+
+        it( "Repository - Create user fail - duplicate entry", async function() {
+            try {
+                await repository.create( userData[ 0 ] )
+                assert.fail( "Duplicate entry error was supposed to be thrown." )
+            } catch( error ) {
+                assert.equal( error.message, languageStrings.errorMessages.record_already_exists, "The message of the error is not equal to the predefined message." )
+                assert.equal( error.name, "DuplicateRecordError", "The name of the error is not equal to the predefined name." )
+                assert.equal( error.statusCode, 409, "The status code of the error was supposed to be 409." )
+            }
         } )
 
         before( async function() {
@@ -199,7 +224,7 @@ describe( "User Test Suite", function() {
         it( "Repository - List users", async function() {
             let data = await repository.list()
             assert.hasAllKeys( data, [ "current_page", "data", "per_page", "total_entries", "total_pages" ], "The repository response does not have the required structure." )
-            assert.strictEqual( data.data.total_entries, 5, "There should only be 5 records in the database." )
+            assert.strictEqual( data.total_entries, 5, "There should only be 5 records in the database." )
             assert.containsAllKeys( data.data[ 0 ], preTestUserData[ 0 ], "The recovered record does not match the original record." )
             assert.containsAllKeys( data.data[ 1 ], userData[ 0 ], "The recovered record does not match the original record." )
             assert.containsAllKeys( data.data[ 2 ], userData[ 1 ], "The recovered record does not match the original record." )
@@ -211,8 +236,30 @@ describe( "User Test Suite", function() {
             
         } )
 
+        it( "Repository - Update user fail - not found", async function() {
+            try {
+                await repository.update( "DOESNT_EXIST" )
+                assert.fail( "Not found error was supposed to be thrown." )
+            } catch( error ) {
+                assert.equal( error.message, languageStrings.errorMessages.not_found, "The message of the error is not equal to the predefined message." )
+                assert.equal( error.name, "NotFoundError", "The name of the error is not equal to the predefined name." )
+                assert.equal( error.statusCode, 404, "The status code of the error was supposed to be 409." )
+            }
+        } )
+
         it( "Repository - Delete user", async function() {
             
+        } )
+
+        it( "Repository - Delete user fail - not found", async function() {
+            try {
+                await repository.delete( "DOESNT_EXIST" )
+                assert.fail( "Not found error was supposed to be thrown." )
+            } catch( error ) {
+                assert.equal( error.message, languageStrings.errorMessages.not_found, "The message of the error is not equal to the predefined message." )
+                assert.equal( error.name, "NotFoundError", "The name of the error is not equal to the predefined name." )
+                assert.equal( error.statusCode, 404, "The status code of the error was supposed to be 409." )
+            }
         } )
     } )
 
