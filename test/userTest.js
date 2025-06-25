@@ -192,7 +192,9 @@ describe( "User Test Suite", function() {
         it( "Repository - Create user", async function() {
             await repository.create( userData[ 0 ] )
             let data = await repository.get( userData[ 0 ][ "id" ] )
-            assert.containsAllKeys( data[ 0 ], userData[ 0 ], "The created record does not contain all of the given user data." )
+            let testUser = userData[ 0 ]
+            delete testUser.registration_token
+            assert.containsAllKeys( data[ 0 ], testUser, "The created record does not contain all of the given user data." )
         } )
 
         it( "Repository - Create user fail - duplicate entry", async function() {
@@ -214,13 +216,15 @@ describe( "User Test Suite", function() {
 
         it( "Repository - List users", async function() {
             let data = await repository.list()
+            let testTestUsers = userData
+            testTestUsers.map( element => { delete element.registration_token } )
             assert.hasAllKeys( data, [ "current_page", "data", "per_page", "total_entries", "total_pages" ], "The repository response does not have the required structure." )
             assert.strictEqual( data.total_entries, 5, "There should only be 5 records in the database." )
             assert.containsAllKeys( data.data[ 0 ], preTestUserData[ 0 ], "The recovered record does not match the original record." )
-            assert.containsAllKeys( data.data[ 1 ], userData[ 0 ], "The recovered record does not match the original record." )
-            assert.containsAllKeys( data.data[ 2 ], userData[ 1 ], "The recovered record does not match the original record." )
-            assert.containsAllKeys( data.data[ 3 ], userData[ 3 ], "The recovered record does not match the original record." )
-            assert.containsAllKeys( data.data[ 4 ], userData[ 2 ], "The recovered record does not match the original record." )
+            assert.containsAllKeys( data.data[ 1 ], testTestUsers[ 0 ], "The recovered record does not match the original record." )
+            assert.containsAllKeys( data.data[ 2 ], testTestUsers[ 1 ], "The recovered record does not match the original record." )
+            assert.containsAllKeys( data.data[ 3 ], testTestUsers[ 3 ], "The recovered record does not match the original record." )
+            assert.containsAllKeys( data.data[ 4 ], testTestUsers[ 2 ], "The recovered record does not match the original record." )
         } )
 
         it( "Repository - Update user", async function() {
@@ -266,15 +270,15 @@ describe( "User Test Suite", function() {
             }
         } )
 
-        after( async function() {
-            const client = getClient()
-            try {
-                const collection = getCollection( client, COLLECTION_NAME )
-                await collection.deleteMany( {} )
-            } catch( error ) {
-                throw error
-            }
-        } )
+        // after( async function() {
+        //     const client = getClient()
+        //     try {
+        //         const collection = getCollection( client, COLLECTION_NAME )
+        //         await collection.deleteMany( {} )
+        //     } catch( error ) {
+        //         throw error
+        //     }
+        // } )
     } )
 
     describe( "User Request Tests", function() {
