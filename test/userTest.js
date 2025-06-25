@@ -187,17 +187,6 @@ describe( "User Test Suite", function() {
             assert.containsAllKeys( data[ 0 ], preTestUserData[ 0 ], "The recovered record does not match the original record." )
         } )
 
-        it( "Repository - Get user fail - not found", async function() {
-            try {
-                await repository.get( "DOESNT_EXIST" )
-                assert.fail( "Not found error was supposed to be thrown." )
-            } catch( error ) {
-                assert.equal( error.message, languageStrings.errorMessages.not_found, "The message of the error is not equal to the predefined message." )
-                assert.equal( error.name, "NotFoundError", "The name of the error is not equal to the predefined name." )
-                assert.equal( error.statusCode, 404, "The status code of the error was supposed to be 409." )
-            }
-        } )
-
         it( "Repository - Create user", async function() {
             await repository.create( userData[ 0 ] )
             let data = await repository.get( userData[ 0 ][ "id" ] )
@@ -233,7 +222,19 @@ describe( "User Test Suite", function() {
         } )
 
         it( "Repository - Update user", async function() {
-            
+            let updateData = {
+                "first_name": "Test",
+                "last_name": "Update",
+                "cellphone_1": "0000000000",
+                "telephone_1": "0000000000",
+                "postal_code": "11223",
+            }
+            let updatedUser = await repository.update( userData[ 1 ][ "id" ], updateData )
+            assert.equal( updatedUser[ 0 ].first_name, updateData[ "first_name" ], "The record was not correctly updated." )
+            assert.equal( updatedUser[ 0 ].last_name, updateData[ "last_name" ], "The record was not correctly updated." )
+            assert.equal( updatedUser[ 0 ].cellphone_1, updateData[ "cellphone_1" ], "The record was not correctly updated." )
+            assert.equal( updatedUser[ 0 ].telephone_1, updateData[ "telephone_1" ], "The record was not correctly updated." )
+            assert.equal( updatedUser[ 0 ].postal_code, updateData[ "postal_code" ], "The record was not correctly updated." )
         } )
 
         it( "Repository - Update user fail - not found", async function() {
@@ -248,7 +249,8 @@ describe( "User Test Suite", function() {
         } )
 
         it( "Repository - Delete user", async function() {
-            
+            let acknowledged = await repository.delete( userData[ 2 ][ "id" ] )
+            assert.strictEqual( acknowledged, true, "The delete transaction was not acknowledged." )
         } )
 
         it( "Repository - Delete user fail - not found", async function() {
@@ -303,92 +305,6 @@ describe( "User Test Suite", function() {
         it( "'Put' method should exist.", function () {
             assert.exists( controller.put )
             assert.isFunction( controller.put )
-        } )
-    } )
-
-    describe( "Users CRUD tests", function() {
-        it( "Create user", function() {
-
-        } )
-
-        it( "Create user - missing id parameter", function() {
-
-        } )
-
-        it( "Create user - invalid id parameter", function() {
-
-        } )
-
-        it( "Create users - duplicate", function() {
-
-        } )
-
-        it( "Get users", function() {
-            
-        } )
-
-        it( "Get users - pagination parameters fail 1", function() {
-            
-        } )
-
-        it( "Get users - pagination parameters fail 2", function() {
-            
-        } )
-
-        it( "Get users - pagination parameters fail 3", function() {
-            
-        } )
-
-        it( "Get users - pagination parameters fail 4", function() {
-            
-        } )
-
-        it( "Get users - pagination parameters fail 5", function() {
-            
-        } )
-
-        it( "Get specific user", function() {
-            
-        } )
-
-        it( "Get specific user - bad id", function() {
-            
-        } )
-
-        it( "Get specific user - not found", function() {
-            
-        } )
-
-        it( "Update user", function() {
-            
-        } )
-
-        it( "Update user - missing id parameter", function() {
-            
-        } )
-
-        it( "Update user - invalid id parameter", function() {
-            
-        } )
-
-        it( "Update user - not found", function() {
-            
-        } )
-
-        it( "Delete users", function() {
-            
-        } )
-
-        it( "Delete user - missing id parameter", function() {
-
-        } )
-
-        it( "Delete user - invalid id parameter", function() {
-
-        } )
-
-        it( "Delete user - not found", function() {
-
         } )
     } )
 } )

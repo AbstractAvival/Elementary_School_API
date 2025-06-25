@@ -77,7 +77,7 @@ class UserRepository {
         try {
             const collection = getCollection( client, COLLECTION_NAME )
             const result = await collection.deleteOne( { id: id } )
-            return result.acknowleged
+            return result.acknowledged
         } catch( error ) {
             //TODO add database errors
             throw error
