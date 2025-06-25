@@ -266,7 +266,7 @@ describe( "User Test Suite", function() {
             }
         } )
 
-        afterAll( async function() {
+        after( async function() {
             const client = getClient()
             try {
                 const collection = getCollection( client, COLLECTION_NAME )
