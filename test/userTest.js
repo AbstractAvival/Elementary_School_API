@@ -15,6 +15,8 @@ const { storeUserRequest } = require( '/app/source/http/requests/user/storeUserR
 const { updateUserRequest } = require( '/app/source/http/requests/user/updateUserRequest' )
 const repository = new UserRepository()
 
+const COLLECTION_NAME = "user"
+
 const preTestUserData = [
     {
         address_1: 'Main Street',
@@ -146,7 +148,7 @@ describe( "User Test Suite", function() {
         before( async function() {
             const client = getClient()
             try {
-                const collection = getCollection( client, "user" )
+                const collection = getCollection( client, COLLECTION_NAME )
                 await collection.insertOne( preTestUserData[ 0 ] )
             } catch( error ) {
                 throw error
@@ -261,6 +263,16 @@ describe( "User Test Suite", function() {
                 assert.equal( error.message, languageStrings.errorMessages.not_found, "The message of the error is not equal to the predefined message." )
                 assert.equal( error.name, "NotFoundError", "The name of the error is not equal to the predefined name." )
                 assert.equal( error.statusCode, 404, "The status code of the error was supposed to be 409." )
+            }
+        } )
+
+        afterAll( async function() {
+            const client = getClient()
+            try {
+                const collection = getCollection( client, COLLECTION_NAME )
+                await collection.deleteMany( {} )
+            } catch( error ) {
+                throw error
             }
         } )
     } )
