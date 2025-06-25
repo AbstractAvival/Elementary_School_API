@@ -154,6 +154,8 @@ class UserRepository {
             const collection = getCollection( client, COLLECTION_NAME )
             const passwordOffsetDate = getOffsetDate( securityConstants.DEFAULT_PASSWORD_EXPIRATION_OFFSET_DAYS )
 
+            const securePasswordData = createSecurePasswordData( data[ "registration_token" ], userExists[ 0 ].salt )
+
             const result = await collection.updateOne( 
                 { id: id }, 
                 {
@@ -170,11 +172,11 @@ class UserRepository {
                         gender: data[ "gender" ] ?? userExists[ 0 ].gender,
                         language: data[ "language" ] ?? userExists[ 0 ].language,
                         last_login_date: data[ "last_login_date" ] ?? userExists[ 0 ].last_login_date,
-                        last_password_update: data[ "password" ] ? new Date( Date.now() ).toISOString().slice( 0, 19 ).replace( 'T', ' ' ) : userExists[ 0 ].last_password_update,
+                        last_password_update: data[ "registration_token" ] ? new Date( Date.now() ).toISOString().slice( 0, 19 ).replace( 'T', ' ' ) : userExists[ 0 ].last_password_update,
                         last_name: data[ "last_name" ] ?? userExists[ 0 ].last_name,
-                        password: data[ "password" ] ?? userExists[ 0 ].password,
-                        password_expires_on: data[ "password" ] ? passwordOffsetDate.toISOString().slice( 0, 19 ).replace( 'T', ' ' ) : userExists[ 0 ].password_expires_on,
-                        password_updated_by: data[ "password_updated_by" ] ?? userExists[ 0 ].password_updated_by,
+                        password: data[ "registration_token" ] ? securePasswordData.password : userExists[ 0 ].password,
+                        password_expires_on: data[ "registration_token" ] ? passwordOffsetDate.toISOString().slice( 0, 19 ).replace( 'T', ' ' ) : userExists[ 0 ].password_expires_on,
+                        password_updated_by: data[ "registration_token" ] ? data[ "password_updated_by" ] : userExists[ 0 ].password_updated_by,
                         postal_code: data[ "postal_code" ] ?? userExists[ 0 ].postal_code,
                         profile_photo: data[ "profile_photo" ] ?? userExists[ 0 ].profile_photo,
                         registered_by: data[ "registered_by" ] ?? userExists[ 0 ].registered_by,

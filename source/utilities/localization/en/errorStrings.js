@@ -10,6 +10,7 @@ const errorStrings = Object.freeze( {
     invalid_order_by: "Given order by value not allowed.",
     invalid_user_input: "Invalid user input. Please check sent information.",
     not_found: "The requested record was not found.",
+    password_decryption_failed: "The given input could not be parsed.",
     record_already_exists: "Record already exists.",
     something_went_wrong: "Something went wrong. Please try again later.",
     subject_code_not_found: "The given subject code was not found",

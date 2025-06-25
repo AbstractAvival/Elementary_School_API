@@ -10,6 +10,7 @@ const errorStrings = Object.freeze( {
     invalid_order_by: "No se permiten los valores de 'ordenar por' proporcionados.",
     invalid_user_input: "Entrada de usuario no válida. Por favor revisa los datos enviados.",
     not_found: "No se encontraron registros.",
+    password_decryption_failed: "El valor dado no pudo ser parseado.",
     record_already_exists: "El registro ya existe.",
     something_went_wrong: "Algo salió mal. Por favor inténtelo más tarde.",
     subject_code_not_found: "El código de tema no se encontró.",

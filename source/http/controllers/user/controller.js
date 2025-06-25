@@ -1,29 +1,32 @@
 // constants
-const express = require( 'express' )
-const { getLanguageStrings } = require( '/app/source/utilities/localization' )
-const { settings } = require( '/app/source/settings' )
+const express = require( "express" )
+const { getLanguageStrings } = require( "/app/source/utilities/localization" )
+const { settings } = require( "/app/source/settings" )
 const languageStrings = getLanguageStrings( settings.language )
-const { paginationConstants } = require( '/app/source/utilities/constants/pagination' )
+const { paginationConstants } = require( "/app/source/utilities/constants/pagination" )
 const userController = express.Router()
-const { UserRepository } = require( '/app/source/http/repositories/userRepository' )
+const { UserRepository } = require( "/app/source/http/repositories/userRepository" )
+
+// middleware
+const { passwordDecryption } = require( "/app/source/http/middleware/security/passwordDecryption" )
 
 // responses
-const { duplicateEntryResponse } = require( '/app/source/http/responses/duplicateEntryResponse' )
-const { errorResponse } = require( '/app/source/http/responses/errorResponse' )
-const { notFoundResponse } = require( '/app/source/http/responses/notFoundResponse' )
-const { successResponse } = require( '/app/source/http/responses/successResponse' )
+const { duplicateEntryResponse } = require( "/app/source/http/responses/duplicateEntryResponse" )
+const { errorResponse } = require( "/app/source/http/responses/errorResponse" )
+const { notFoundResponse } = require( "/app/source/http/responses/notFoundResponse" )
+const { successResponse } = require( "/app/source/http/responses/successResponse" )
 
 // user requests
-const { deleteUserRequest } = require( '/app/source/http/requests/user/deleteUserRequest' )
-const { indexUserRequest } = require( '/app/source/http/requests/user/indexUserRequest' )
-const { showUserRequest } = require( '/app/source/http/requests/user/showUserRequest' )
-const { storeUserRequest } = require( '/app/source/http/requests/user/storeUserRequest' )
-const { updateUserRequest } = require( '/app/source/http/requests/user/updateUserRequest' )
+const { deleteUserRequest } = require( "/app/source/http/requests/user/deleteUserRequest" )
+const { indexUserRequest } = require( "/app/source/http/requests/user/indexUserRequest" )
+const { showUserRequest } = require( "/app/source/http/requests/user/showUserRequest" )
+const { storeUserRequest } = require( "/app/source/http/requests/user/storeUserRequest" )
+const { updateUserRequest } = require( "/app/source/http/requests/user/updateUserRequest" )
 
 const repository = new UserRepository()
 
 const deleteUserValidationMiddleware = [ deleteUserRequest ]
-userController.delete( '/:id', deleteUserValidationMiddleware, async ( request, response ) => {
+userController.delete( "/:id", deleteUserValidationMiddleware, async ( request, response ) => {
     const deleteUserParameters = request.params
     try {
         const result = await repository.deleteUser( deleteUserParameters.id )
@@ -36,7 +39,7 @@ userController.delete( '/:id', deleteUserValidationMiddleware, async ( request, 
 } ) 
 
 const indexUsersValidationMiddleware = [ indexUserRequest ]
-userController.get( '/', indexUsersValidationMiddleware, async ( request, response ) => {
+userController.get( "/", indexUsersValidationMiddleware, async ( request, response ) => {
     const indexUserInput = request.query
     try {
         const result = await repository.listUsers( 
@@ -55,7 +58,7 @@ userController.get( '/', indexUsersValidationMiddleware, async ( request, respon
 } )
 
 const showUserValidationMiddleware = [ showUserRequest ]
-userController.get( '/:resource_id', showUserValidationMiddleware, async ( request, response ) => {
+userController.get( "/:resource_id", showUserValidationMiddleware, async ( request, response ) => {
     const getUserQuery = request.query
     const getUserParameters = request.params
     try {
@@ -71,8 +74,8 @@ userController.get( '/:resource_id', showUserValidationMiddleware, async ( reque
     }
 } )
 
-const storeUserValidationMiddleware = [ storeUserRequest ]
-userController.post( '/', storeUserValidationMiddleware, async ( request, response ) => {
+const storeUserValidationMiddleware = [ passwordDecryption, storeUserRequest ]
+userController.post( "/", storeUserValidationMiddleware, async ( request, response ) => {
     const storeUserBody = request.body
     try {
         const result = await repository.storeUser( storeUserBody )
@@ -83,8 +86,8 @@ userController.post( '/', storeUserValidationMiddleware, async ( request, respon
     }
 } ) 
 
-const updateUserValidationMiddleware = [ updateUserRequest ]
-userController.put( '/:resource_id', updateUserValidationMiddleware, async ( request, response ) => {
+const updateUserValidationMiddleware = [ passwordDecryption, updateUserRequest ]
+userController.put( "/:resource_id", updateUserValidationMiddleware, async ( request, response ) => {
     const updateUserBody = request.body
     const updateUserParameters = request.params
     try {
