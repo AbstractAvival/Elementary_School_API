@@ -2,6 +2,7 @@ const errorStrings = Object.freeze( {
     authentication_failed: "Authentication Failed.",
     absence_not_found: "The absence was not found.",
     classroom_not_found: "The classroom was not found.",
+    credential_decryption_failed: "The given input could not be parsed.",
     dependency_conflict: "Dependency conflict.",
     invalid_access_level: "Given access level must be divisible by 10.",
     invalid_columns: "Given column values not allowed.",
