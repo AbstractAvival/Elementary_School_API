@@ -1,4 +1,15 @@
-const { paginationConstants } = require( '/app/source/utilities/constants/pagination' )
+// utilities
+const { isDateExpired } = require( "/app/source/utilities/dates" )
+const { paginationConstants } = require( "/app/source/utilities/constants/pagination" )
+
+function jwtTokenFormat( token, userData ) {
+    return {
+        id: userData.id,
+        password_expired: isDateExpired( userData.password_expires_on, new Date().toISOString().slice( 0, 19 ).replace( "T", " " ) ) ? "Y" : "N",
+        role: userData.role,
+        token: token
+    }
+}
 
 function paginationFormat( data, paginationParameters, totalCount ) {
     const totalPages = parseInt( totalCount / ( paginationParameters.limit ?? paginationConstants.DEFAULT_LIMIT ) )
@@ -14,5 +25,6 @@ function paginationFormat( data, paginationParameters, totalCount ) {
 }
 
 module.exports = {
+    jwtTokenFormat,
     paginationFormat
 }
