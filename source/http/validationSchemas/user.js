@@ -105,11 +105,11 @@ const storeUserBodySchema = yup.object( {
     } ),
     registered_by: yup.string().max( 20 ).matches( regex.id_regex ).required(),
     registration_date: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
-    registration_token: yup.string().max( 100 ).matches( regex.password_regex ).required(),
+    registration_token: yup.string().max( 30 ).matches( regex.password_regex ).required(),
     role: yup.string().max( 30 ).matches( regex.only_letters_regex ).nullable(),
     telephone_1: yup.string().max( 16 ).matches( regex.phone_regex ).nullable(),
     telephone_2: yup.string().max( 16 ).matches( regex.phone_regex ).nullable(),
-    username: yup.string().max( 25 ).matches( regex.general_use_regex ).nullable()
+    username: yup.string().max( 30 ).matches( regex.general_use_regex ).nullable()
 } )
 
 const updateUserBodySchema = yup.object( {
@@ -127,7 +127,7 @@ const updateUserBodySchema = yup.object( {
     last_login_date: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
     last_name: yup.string().max( 50 ).matches( regex.only_letters_regex ).nullable(),
     last_password_update: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
-    registration_token: yup.string().max( 100 ).matches( regex.password_regex ).nullable(),
+    registration_token: yup.string().max( 30 ).matches( regex.password_regex ).nullable(),
     password_expires_on: yup.string().max( 20 ).matches( regex.date_regex ).nullable(),
     password_updated_by: yup.string().max( 20 ).matches( regex.id_regex ).required(),
     postal_code: yup.string().max( 100 ).matches( regex.phone_regex ).nullable(),
@@ -152,7 +152,7 @@ const updateUserBodySchema = yup.object( {
     sex: yup.string().max( 15 ).matches( regex.only_letters_regex ).nullable(),
     telephone_1: yup.string().max( 16 ).matches( regex.phone_regex ).nullable(),
     telephone_2: yup.string().max( 16 ).matches( regex.phone_regex ).nullable(),
-    username: yup.string().max( 25 ).matches( regex.general_use_regex ).nullable()
+    username: yup.string().max( 30 ).matches( regex.general_use_regex ).nullable()
 } )
 
 const updateUserParameterSchema = yup.object( {
