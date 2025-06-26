@@ -1,3 +1,6 @@
+const { JwtAuthenticationService } = require( "/app/source/http/services/jwt/authentication" )
+const authenticationService = new JwtAuthenticationService()
+
 describe( "JWT Authentication Test Suite", function() {
     describe( "JWT Service Tests", function() {
         it( "'JwtAuthenticationService should exist.", function() {
