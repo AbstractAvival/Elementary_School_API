@@ -270,15 +270,15 @@ describe( "User Test Suite", function() {
             }
         } )
 
-        // after( async function() {
-        //     const client = getClient()
-        //     try {
-        //         const collection = getCollection( client, COLLECTION_NAME )
-        //         await collection.deleteMany( {} )
-        //     } catch( error ) {
-        //         throw error
-        //     }
-        // } )
+        after( async function() {
+            const client = getClient()
+            try {
+                const collection = getCollection( client, COLLECTION_NAME )
+                await collection.deleteMany( {} )
+            } catch( error ) {
+                throw error
+            }
+        } )
     } )
 
     describe( "User Request Tests", function() {
