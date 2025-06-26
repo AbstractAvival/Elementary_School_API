@@ -22,4 +22,10 @@ describe( "JWT Authentication Test Suite", function() {
             assert.isFunction( authenticationService.validate )
         } )
     } )
+
+    describe( "JWT Request Tests", function() {
+        it( "JWT login request should exist", function() {
+            assert.exists( jwtLoginRequest )
+        } )
+    } )
 } )
